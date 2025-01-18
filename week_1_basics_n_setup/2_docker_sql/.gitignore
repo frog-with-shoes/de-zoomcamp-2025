@@ -2,3 +2,4 @@
 *.parquet
 *.gz
 pgAdmin_data/
+*.csv.*

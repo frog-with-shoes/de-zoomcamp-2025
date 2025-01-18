@@ -1,0 +1,20 @@
+SELECT tt.tpep_pickup_datetime, tt.tpep_dropoff_datetime, CONCAT(pickup."Borough", ' / ',  pickup."Zone") as pickup_info, dropoff."Borough", pickup."Zone", tt.fare_amount, tt.tip_amount  FROM yellow_taxi_trips tt, taxi_zones pickup, taxi_zones dropoff
+WHERE tt."PULocationID" = pickup."LocationID" AND
+tt."DOLocationID" = dropoff."LocationID"
+LIMIT 100
+
+
+
+WHERE X IS null
+
+inner join equivalent to above 
+FROM x INNER JOIN x2 on x.r = x2.r
+
+PULOCATIONID NOT IN (SELECT "LocationID" FROM zones) - if query displays records then it would mean that they contain diff values
+
+GROUP BY (a column and aggregate afterwards)
+
+DATE_TRUNC('DAY', tpep_dropoff_datetime) || CAST(X AS DATE)
+
+
+saw joins, group by(aggregate by column), order by, joins, sub queries, check for null, casting datetime to juste date
