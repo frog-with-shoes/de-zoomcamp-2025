@@ -22,6 +22,9 @@ select
     -- timestamps
     cast(pickup_datetime as timestamp) as pickup_datetime,
     cast(dropoff_datetime as timestamp) as dropoff_datetime,
+    EXTRACT(YEAR FROM CAST(dropoff_datetime as DATE)) as year,
+    format_date('%Q', dropoff_datetime) as quarter,
+    
     
     -- trip info
     store_and_fwd_flag,
