@@ -18,6 +18,10 @@ select
     -- timestamps
     cast(pickup_datetime as timestamp) as pickup_datetime,
     cast(dropoff_datetime as timestamp) as dropoff_datetime,
+    cast(EXTRACT(YEAR FROM CAST(dropoff_datetime as DATE)) as INTEGER) as year,
+    cast(format_date('%Q', dropoff_datetime) as INTEGER) as quarter,
+    CONCAT(CAST(EXTRACT(YEAR FROM CAST(dropoff_datetime as DATE)) as STRING), '/Q', cast(format_date('%Q', dropoff_datetime) as INTEGER)) as year_quarter,
+    cast(EXTRACT(MONTH FROM CAST(dropoff_datetime as DATE)) as INTEGER) as month,
     
     -- trip info
     store_and_fwd_flag,
@@ -41,8 +45,8 @@ from tripdata
 where rn = 1
 
 -- dbt build --select <model.sql> --vars '{'is_test_run: false}'
-{% if var('is_test_run', default=true) %}
+-- {% if var('is_test_run', default=true) %}
 
-  limit 100
+--   limit 100
 
-{% endif %}
+-- {% endif %}
