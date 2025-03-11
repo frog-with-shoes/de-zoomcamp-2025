@@ -38,7 +38,8 @@ select
     cast(0 as numeric) as ehail_fee,
     cast(imp_surcharge as numeric) as improvement_surcharge,
     cast(total_amount as numeric) as total_amount,
-    cast(cast (payment_type as FLOAT64) as integer) as payment_type 
+    coalesce(cast(cast (payment_type as FLOAT64) as integer), 0) as payment_type,
+    {{ get_payment_type_description('payment_type') }} as payment_type_description
 
 
 from tripdata
