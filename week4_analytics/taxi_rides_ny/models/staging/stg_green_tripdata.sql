@@ -22,6 +22,11 @@ select
     -- timestamps
     cast(pickup_datetime as timestamp) as pickup_datetime,
     cast(dropoff_datetime as timestamp) as dropoff_datetime,
+    cast(EXTRACT(YEAR FROM CAST(dropoff_datetime as DATE)) as INTEGER) as year,
+    cast(format_date('%Q', dropoff_datetime) as INTEGER) as quarter,
+    CONCAT(CAST(EXTRACT(YEAR FROM CAST(dropoff_datetime as DATE)) as STRING), '/Q', cast(format_date('%Q', dropoff_datetime) as INTEGER)) as year_quarter,
+    cast(EXTRACT(MONTH FROM CAST(dropoff_datetime as DATE)) as INTEGER) as month,
+
     
     -- trip info
     store_and_fwd_flag,
@@ -38,15 +43,15 @@ select
     cast(ehail_fee as numeric) as ehail_fee,
     cast(imp_surcharge as numeric) as improvement_surcharge,
     cast(total_amount as numeric) as total_amount,
-    coalesce({{ dbt.safe_cast("payment_type", api.Column.translate_type("integer")) }},0) as payment_type,
-    {{ get_payment_type_description("payment_type") }} as payment_type_description
+    coalesce({{ dbt.safe_cast("cast(payment_type as DECIMAL)", api.Column.translate_type("integer")) }}, 1) as payment_type,
+    {{ get_payment_type_description('payment_type') }} as payment_type_description
 from tripdata
 where rn = 1
 
 
--- dbt build --select <model_name> --vars '{'is_test_run': 'false'}'
-{% if var('is_test_run', default=true) %}
+-- -- dbt build --select <model_name> --vars '{'is_test_run': 'false'}'
+-- {% if var('is_test_run', default=true) %}
 
-  limit 100
+--   limit 100
 
-{% endif %}
+-- {% endif %}
